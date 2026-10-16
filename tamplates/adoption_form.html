@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+
+    <!-- Top Navigation / Back Button -->
+    <div class="max-w-2xl mx-auto mb-6">
+        <a href="#" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">
+            ← Back to Pet Details
+        </a>
+    </div>
+
+    <!-- Form Container Card -->
+    <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden p-8 sm:p-10">
+        
+        <!-- Header Section with Pet Info -->
+        <div class="text-center pb-8 border-b border-gray-100 mb-8">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50/80 px-3 py-1.5 rounded-xl inline-block mb-3">
+                Adoption Application
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                Applying for <span class="text-indigo-600">{{ pet.name }}</span> 🐾
+            </h1>
+            <p class="mt-2 text-sm text-gray-600">
+                Please fill out the form below carefully so we can find a safe and loving home for {{ pet.name }}.
+            </p>
+        </div>
+
+        <!-- Adoption Form (Pure HTML with Tailwind) -->
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Phone Number Field -->
+            <div>
+                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                    Phone Number
+                </label>
+                <input type="text" name="phone" placeholder="Enter your phone number..." required
+                       class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+            </div>
+
+            <!-- Address Field -->
+            <div>
+                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                    Address
+                </label>
+                <textarea name="adders" rows="3" placeholder="Enter your current address..." required
+                          class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"></textarea>
+            </div>
+
+            <!-- Reason Field -->
+            <div>
+                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                    Why do you want this pet? (Reason)
+                </label>
+                <textarea name="reson" rows="4" placeholder="Write down your reason here..." required
+                          class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"></textarea>
+            </div>
+
+            <!-- Previous Pet Experience Field -->
+            <div>
+                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                    Have you owned a pet before?
+                </label>
+                <select name="previous_pet_experience" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-sm shadow-indigo-100 transition duration-200 flex items-center justify-center gap-2">
+                    Submit Application 🚀
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ pet.name }} - Pet Details{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 pb-20">
+
+    <!-- Top Navigation / Back Button Bar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Back to Home Button (Update link to your home/pets list URL name) -->
+                <a href="#" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">
+                    ← Back to Available Pets
+                </a>
+
+                <!-- Brand / Logo small -->
+                <span class="text-xl font-black text-indigo-600 tracking-tight">🐾 PawsHome</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        
+        <!-- Main Details Card Container -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden grid grid-cols-1 lg:grid-cols-2 gap-0">
+            
+            <!-- Left Side: Pet Large Image & Status Badge -->
+            <div class="relative h-80 lg:h-full min-h-[350px] bg-gray-100">
+                {% if pet.image %} 
+                    <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                {% endif %}
+
+                <!-- Status Badge on Image -->
+                {% if pet.status == 'available' %} 
+                <span class="absolute top-4 left-4 bg-emerald-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow-md">
+                    Available for Adoption
+                </span>
+                {% else %}
+                <span class="absolute top-4 left-4 bg-rose-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow-md">
+                    Already Adopted
+                </span>
+                {% endif %} 
+            </div>
+
+            <!-- Right Side: Information & Action Section -->
+            <div class="p-8 sm:p-10 flex flex-col justify-between">
+                <div>
+                    <!-- Name & Breed -->
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <div>
+                            <!-- Dynamic Pet Name -->
+                            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-1">{{ pet.name }}</h1>
+                            <!-- Dynamic Breed -->
+                            <p class="text-sm font-semibold text-indigo-600 bg-indigo-50/80 inline-block px-3 py-1 rounded-xl">{{ pet.breed }}</p>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-gray-400 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">Pet</span>
+                    </div>
+
+                    <!-- Specs Grid (Age, Gender, Location) -->
+                    <div class="grid grid-cols-2 gap-3 my-6 bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
+                        <div>
+                            <span class="block text-xs font-medium text-gray-400 uppercase tracking-wider">Age</span>
+                            <span class="text-sm font-bold text-gray-800">{{ pet.age }} Years</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-medium text-gray-400 uppercase tracking-wider">Gender</span>
+                            <span class="text-sm font-bold text-gray-800">{{ pet.gender }}</span>
+                        </div>
+                        <div class="col-span-2 pt-2 border-t border-gray-200/60">
+                            <span class="block text-xs font-medium text-gray-400 uppercase tracking-wider">Location</span>
+                            <span class="text-sm font-bold text-gray-800 truncate">{{ pet.location }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Description / Bio -->
+                    <div class="mb-8">
+                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-2">About {{ pet.name }}</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed bg-gray-50/50 p-4 rounded-2xl border border-gray-100/60">
+                            {{ pet.description }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Conditional Action Section -->
+                <div>
+                    {% if pet.status == 'available' %} 
+                    <a href="{% url "application_form" pet.id %}" class="w-full block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-sm shadow-indigo-100 transition duration-200">
+                        Apply for Adoption 🐾
+                    </a>
+                    {% else %} 
+                    <div class="w-full bg-rose-50 border border-rose-100 text-rose-600 font-semibold py-3.5 px-6 rounded-2xl text-center text-sm flex items-center justify-center gap-2">
+                        ❌ This pet has already been adopted.
+                    </div>
+                    {% endif %} 
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

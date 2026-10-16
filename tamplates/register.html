@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        
+        <!-- Top Back Link -->
+        <div class="sm:mx-auto sm:w-full sm:max-w-md mb-6 px-4 sm:px-0">
+            <a href="#" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">
+                ← Back to Home
+            </a>
+        </div>
+
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <h2 class="text-center text-3xl font-extrabold text-gray-900 tracking-tight">
+                Create an Account 🐶
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Join PawsHome to find and adopt your rescue pet today.
+            </p>
+        </div>
+
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
+            <div class="bg-white py-8 px-6 shadow-sm border border-gray-100 rounded-3xl sm:px-10">
+                
+                <form action="" method="POST" class="space-y-5">
+                    {% csrf_token %}
+                    <!-- Username Field -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                            Username
+                        </label>
+                        <input type="text" value="{{context.username.value|default:'' }}"" name="username" required placeholder="Choose a username"
+                               class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    </div>
+
+                    <!-- Email Field -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                            Email Address
+                        </label>
+                        <input type="email" value="{{context.email.value|default:'' }}"name="email" required placeholder="Enter your email"
+                               class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    </div>
+
+                    <!-- Password Field -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                            Password
+                        </label>
+                        <input type="password"  name="password1" required placeholder="Create a password"
+                               class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+                            Confirm Password
+                        </label>
+                        <input type="password"  name="password2" required placeholder="Confirm your password"
+                               class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    </div>
+
+                    <!-- Sign Up Button -->
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-sm shadow-indigo-100 transition duration-200 flex items-center justify-center gap-2">
+                            Sign Up ✨
+                        </button>
+                        <!-- {{ context.errors }} -->
+                    </div>
+                </form>
+                {% if messages%}
+                {% for messeg in messages%}
+                <div>{{messeg}}</div>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Login Link at Bottom -->
+                <div class="mt-6 text-center border-t border-gray-100 pt-6">
+                    <p class="text-sm text-gray-600">
+                        Already have an account? 
+                        <a href="{% url "login" %}" class="font-bold text-indigo-600 hover:text-indigo-700 transition">
+                            Login here
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock  %}
