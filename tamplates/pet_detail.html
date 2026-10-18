@@ -3,7 +3,7 @@
 {% block title %}{{ pet.name }} - Pet Details{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 pb-20">
+<div class="min-h-screen bg-gray-50 pb-20">             
 
     <!-- Top Navigation / Back Button Bar -->
     <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 shadow-sm">
@@ -32,7 +32,7 @@
                 {% endif %}
 
                 <!-- Status Badge on Image -->
-                {% if pet.status == 'available' %} 
+                {% if pet.status == 'available' or pet.status == 'pending' %} 
                 <span class="absolute top-4 left-4 bg-emerald-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow-md">
                     Available for Adoption
                 </span>
@@ -84,15 +84,22 @@
 
                 <!-- Conditional Action Section -->
                 <div>
-                    {% if pet.status == 'available' %} 
-                    <a href="{% url "application_form" pet.id %}" class="w-full block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-sm shadow-indigo-100 transition duration-200">
-                        Apply for Adoption 🐾
+                    {% if adoptions %}
+                 <!-- ইউজার ইতিমধ্যেই আবেদন করে থাকলে Disabled/Applied বাটন -->
+                 <button disabled class="w-full block text-center bg-emerald-100 text-emerald-700 cursor-not-allowed font-semibold py-3.5 px-6 rounded-2xl shadow-sm transition duration-200">
+                     Already Applied ✓
+                 </button>
+             {% elif pet.status == 'adopted' %}
+               <!-- পেটটি অলরেডি দত্তক নেওয়া হয়ে গেলে -->
+                 <button disabled class="w-full block text-center bg-gray-200 text-gray-500 cursor-not-allowed font-semibold py-3.5 px-6 rounded-2xl shadow-sm transition duration-200">
+                     Already Adopted 🏠
+                 </button>
+             {% else %}
+                 <!-- সাধারণ অবস্থায় নতুন আবেদনের জন্য বাটন -->
+                 <a href="{% url 'application_form' pet.id %}" class="w-full block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-sm shadow-indigo-100 transition duration-200">
+                     Apply for Adoption 🐾
                     </a>
-                    {% else %} 
-                    <div class="w-full bg-rose-50 border border-rose-100 text-rose-600 font-semibold py-3.5 px-6 rounded-2xl text-center text-sm flex items-center justify-center gap-2">
-                        ❌ This pet has already been adopted.
-                    </div>
-                    {% endif %} 
+             {% endif %}             
                 </div>
 
             </div>

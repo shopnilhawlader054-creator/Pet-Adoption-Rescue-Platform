@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models,transaction
 from django.contrib.auth.models import User
 import os
 from uuid import uuid4
@@ -55,3 +55,11 @@ class Adoptions(models.Model):
     reson = models.TextField()
     previous_pet_experience = models.BooleanField(default=False)
     created_add = models.DateTimeField(auto_now_add=True)
+    def save(self,*args, **kwargs):
+            if self.pk:
+                deta = Adoptions.objects.get(pk=self.pk)
+                if deta.status != 'adopted' and self.status == 'adopted':
+                    with transaction.atomic():
+                        self.pet.status = 'adopted'
+                        self.pet.save()
+            super().save(*args, **kwargs)

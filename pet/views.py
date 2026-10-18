@@ -5,7 +5,55 @@ from django.contrib import messages
 from .froms import Registationform,Adoptionform
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
+from.serializers import PetSerializers,AdoptionSerializers
+from rest_framework.response import Response
+from rest_framework import status
 # Create your views here.
+
+class ProductListView(APIView):
+    def get(self,request):
+         all_pet = Pet.objects.all()
+         serializer = PetSerializers(all_pet,many = True)
+         return Response(serializer.data,status=status.HTTP_200_OK)
+        
+    def post(self,request):
+             data = request.data
+             serializer = PetSerializers(data=data)
+             if serializer.is_valid():
+                  serializer.save()
+                  return Response(serializer.data,status=status.HTTP_201_CREATED)
+             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+class ProductDetalView(APIView):
+     def put(self,request,pk):
+          pet = Pet.objects.filter(id=pk).first()
+          if not pet :
+               return Response({'eror':'product not found'},status=status.HTTP_404_NOT_FOUND)
+          serializer = PetSerializers(pet,data=request.data,partial=True)
+          if serializer.is_valid():
+               serializer.save()
+               return Response(serializer.data,status=status.HTTP_200_OK)
+          return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+     def delete(self,request,pk):
+          pet = get_object_or_404(Pet,id=pk)
+          if not pet:
+               return Response({'eror':'product not found'},status=status.HTTP_404_NOT_FOUND)
+          pet.delete()
+          return Response({"message": "Pet deleted successfully!"},status=status.HTTP_204_NO_CONTENT,)
+     
+class AdoptionRequestView(APIView):
+     def post(self,request):
+          data = request.data
+          serializer = AdoptionSerializers(data=data)
+          if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+          return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+     def get(self,request):
+          adoption = Adoptions.objects.all()
+          adoption = adoption.filter(user=request.user)
+          
+
 @login_required
 def home (request):
     print('hitting sucess')
@@ -17,20 +65,25 @@ def home (request):
 @login_required
 def pet_detal (request,pk):
     print('pet detals hitting sucess')
+    user_id = request.user
     pets = get_object_or_404 (Pet, id=pk)
+    adoptions = Adoptions.objects.filter(pet=pets,user=user_id).exists()
+    
     print(pets.name)
     context ={
         'pet':pets,
+        'adoptions':adoptions
     }
     return render(request,'pet_detail.html',context)
 @login_required
 def application_form(request,pk):
-    user_id = get_object_or_404(Pet,id=pk)
+    pet = get_object_or_404(Pet,id=pk)
+    
     if request.method == 'POST':
         adoption = Adoptionform(request.POST)
         if adoption.is_valid():
             adoption_instance = adoption.save(commit=False)
-            adoption_instance.pet = user_id
+            adoption_instance.pet = pet
             adoption_instance.user = request.user
             adoption.save()
             return redirect('home')
@@ -38,9 +91,8 @@ def application_form(request,pk):
             print("FORM ERRORS:", adoption.errors)
         
     print('application form')
-    pets = get_object_or_404(Pet,id=pk)
     context ={
-        'pet':pets
+        'pet':pet
     }
     return render(request,'adoption_form.html',context)
 

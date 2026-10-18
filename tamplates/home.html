@@ -100,7 +100,10 @@
                     <img src="{{pet.image.url}}" alt="{{pet.name}}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
                     
                     <!-- Status Badge -->
-                    <span class="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                    <span class="absolute top-3 right-3 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm 
+                      {% if pet.status == 'adopted' %} bg-emerald-500 
+                      {% elif pet.status == 'pending' %} bg-amber-500 
+                      {% else %} bg-blue-500 {% endif %}">
                         {{pet.status}}
                     </span>
                 </div>
@@ -127,69 +130,6 @@
                 </div>
             </div>
             {% endfor %}
-            <!-- Sample Card 2 (Adopted) -->
-            {% comment %} <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-gray-100 overflow-hidden transition duration-300 flex flex-col">
-                <div class="relative h-56 w-full bg-gray-200 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=600" alt="Pet Image" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    
-                    <!-- Status Badge (Adopted -> Red) -->
-                    <span class="absolute top-3 right-3 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-                        Adopted
-                    </span>
-                </div>
-
-                <div class="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold text-gray-900">Luna</h3>
-                            <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Persian Cat</span>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 my-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
-                            <div><strong>Age:</strong> 1 Year</div>
-                            <div><strong>Gender:</strong> Female</div>
-                            <div class="col-span-2 truncate"><strong>Location:</strong> Chattogram</div>
-                        </div>
-                    </div>
-
-                    <a href="#" class="w-full block text-center bg-indigo-50 hover:bg-indigo-600 text-indigo-600 hover:text-white font-semibold py-2.5 px-4 rounded-xl transition duration-200">
-                        View Details
-                    </a>
-                </div>
-            </div> {% endcomment %}
-
-            <!-- Sample Card 3 (Available) -->
-            {% comment %} <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-gray-100 overflow-hidden transition duration-300 flex flex-col">
-                <div class="relative h-56 w-full bg-gray-200 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=600" alt="Pet Image" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    
-                    <span class="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-                        Available
-                    </span>
-                </div>
-
-                <div class="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold text-gray-900">Rocky</h3>
-                            <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">German Shepherd</span>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 my-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
-                            <div><strong>Age:</strong> 3 Years</div>
-                            <div><strong>Gender:</strong> Male</div>
-                            <div class="col-span-2 truncate"><strong>Location:</strong> Sylhet</div>
-                        </div>
-                    </div>
-
-                    <a href="#" class="w-full block text-center bg-indigo-50 hover:bg-indigo-600 text-indigo-600 hover:text-white font-semibold py-2.5 px-4 rounded-xl transition duration-200">
-                        View Details
-                    </a>
-                </div>
-            </div> {% endcomment %}
-
-            
-
         </div>
 
     </div>
