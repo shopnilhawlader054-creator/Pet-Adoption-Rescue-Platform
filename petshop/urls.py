@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from pet.views import home,pet_detal,application_form,dashbord,logins,register,logouts,filterpet,ProductListView,ProductDetalView
+from pet.views import home,pet_detal,application_form,dashbord,logins,register,logouts,filterpet,ProductListView,ProductDetalView,AdoptionRequestView
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +36,11 @@ urlpatterns = [
     path('filter/',view=filterpet,name='filter_pet'),
     path("api-auth/", include("rest_framework.urls")),
     path('petlists/',ProductListView.as_view(),name='pet_lists'),
-    path('productdetals/<int:pk>/',ProductDetalView.as_view(),name='product_detals')
+    path('productdetals/<int:pk>/',ProductDetalView.as_view(),name='product_detals'),
+      # Path to obtain token (Login)
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # Path to refresh token
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('adoptionrequest/',AdoptionRequestView.as_view(),name='adoption_request')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

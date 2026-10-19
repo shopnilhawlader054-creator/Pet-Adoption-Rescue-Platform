@@ -14,6 +14,18 @@ from rest_framework import status
 class ProductListView(APIView):
     def get(self,request):
          all_pet = Pet.objects.all()
+         pet_name = request.query_params.get('petname')
+         pet_type = request.query_params.get('type')
+         pet_gender = request.query_params.get('gender')
+         location = request.query_params.get('location')
+         if pet_name:
+              all_pet = all_pet.filter(name = pet_name)
+         if pet_type :
+              all_pet=all_pet.filter(animal_type = pet_type)
+         if pet_gender:
+              all_pet= all_pet.filter(gender = pet_gender)
+         if location:
+              all_pet = all_pet.filter(location = location)
          serializer = PetSerializers(all_pet,many = True)
          return Response(serializer.data,status=status.HTTP_200_OK)
         
@@ -51,15 +63,27 @@ class AdoptionRequestView(APIView):
           return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
      def get(self,request):
           adoption = Adoptions.objects.all()
-          adoption = adoption.filter(user=request.user)
+          user_id = request.query_params.get('user')
+          pet_id = request.query_params.get('pet')
+          print(user_id,pet_id)
+          if user_id and adoption:
+               adoption = adoption.filter(pet=pet_id,user = user_id)
+              
+          else:
+                 adoption = Adoptions.objects.all()
+          serializer = AdoptionSerializers(adoption,many=True)
+          return Response(serializer.data,status=status.HTTP_200_OK)
+         
           
 
 @login_required
 def home (request):
     print('hitting sucess')
     pets =  Pet.objects.all()
+    user_name = request.user
     context ={
         'pets':pets,
+        'name':user_name
     }
     return render(request,'home.html',context)
 @login_required

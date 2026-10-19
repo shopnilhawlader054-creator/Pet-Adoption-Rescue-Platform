@@ -16,11 +16,12 @@
 
                 <!-- Navigation Links / Auth Buttons -->
                 <div class="flex items-center space-x-4">
-                    {% comment %} {% if user.is_authenticated %} {% endcomment %}
-                        <span class="text-sm font-medium text-gray-700 hidden sm:inline">Hello, <strong class="text-indigo-600">Shopnil</strong></span>
+                    {% if user.is_authenticated %} 
+                        <span class="text-sm font-medium text-gray-700 hidden sm:inline">Hello, <strong class="text-indigo-600">{{name}}</strong></span>
                         <a href="{% url "dashbord" %}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold transition">
                             Dashboard
                         </a>
+                        {% endif %} 
                        
                 </div>
             </div>
